@@ -10,12 +10,29 @@
       integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
       crossorigin="anonymous"
     ></script>
-    <title>Đăng nhập</title>
+    <title>Trang chủ</title>
   </head>
   <body>
     <header class="flex flex-col justify-center items-center">
-      <section class="mt-10">
-        <form class="flex space-x-2">
+      <section
+        class="mt-10 shadow-lg px-8 py-6 hover:shadow-xl rounded-md space-y-2"
+      >
+        <h1 class="flex items-center space-x-2 font-bold text-xl">
+          <img
+            src="https://www.pngall.com/wp-content/uploads/11/Weather-No-Background.png"
+            alt="wt"
+            class="w-10"
+          />
+          Hôm nay bạn muốn đi đâu
+          <img
+            src="https://cdn-icons-png.flaticon.com/512/1458/1458527.png"
+            alt="wt"
+            class="w-8"
+          />
+        </h1>
+        <form
+          class="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-2"
+        >
           <div>
             <input
               type="text"
@@ -25,14 +42,14 @@
             />
           </div>
           <div>
-            <select class="rounded-md" id="select">
+            <select class="rounded-md w-full" id="select">
               <option value="name_food" selected>Tên món ăn</option>
               <option value="name_res">Tên quán</option>
               <option value="address_slug">Địa chỉ</option>
             </select>
           </div>
           <button
-            class="bg-red-400 hover:bg-red-600 text-white rounded-lg px-2"
+            class="bg-red-400 hover:bg-red-600 text-white rounded-lg p-2"
             id="btn-search"
           >
             Tìm kiếm
