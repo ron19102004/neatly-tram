@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp"></script>
+    <script
+      src="https://code.jquery.com/jquery-3.7.1.js"
+      integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+      crossorigin="anonymous"
+    ></script>
+    <title>Đăng nhập</title>
+  </head>
+  <body>
+    <header class="flex flex-col justify-center items-center">
+      <section class="mt-10">
+        <form class="flex space-x-2">
+          <div>
+            <input
+              type="text"
+              placeholder="Nhập thông tin"
+              class="rounded-md"
+              id="search-box"
+            />
+          </div>
+          <div>
+            <select class="rounded-md" id="select">
+              <option value="name_food" selected>Tên món ăn</option>
+              <option value="name_res">Tên quán</option>
+              <option value="address_slug">Địa chỉ</option>
+            </select>
+          </div>
+          <button
+            class="bg-red-400 hover:bg-red-600 text-white rounded-lg px-2"
+            id="btn-search"
+          >
+            Tìm kiếm
+          </button>
+        </form>
+      </section>
+    </header>
+    <main class="p-4">
+      <section id="result">
+        <ul
+          id="list-result"
+          class="grid gap-3 grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
+        ></ul>
+      </section>
+    </main>
+  </body>
+  <script>
+    const listApi = {
+      name_food: (name_food) =>
+        `https://sheetdb.io/api/v1/9l4kht3ktqj3y/search?sheet=food&name_food_slug=${name_food
+          .toLowerCase()
+          .split(" ")
+          .join("_")}`,
+      name_res: (name_res) =>
+        `https://sheetdb.io/api/v1/9l4kht3ktqj3y/search?sheet=food&name_res_slug=${name_res.toLowerCase()}`,
+      address_slug: (address_slug) =>
+        `https://sheetdb.io/api/v1/9l4kht3ktqj3y/search?sheet=food&address_slug=${address_slug.toLowerCase()}`,
+    };
+    const mockToken = {
+      get: () => {
+        const token = "4omf9lx08a4a63cpfdx6z8habb7ip65cmhry9851";
+        return token;
+      },
+    };
+    $(() => {
+      $("#btn-search").click((e) => {
+        e.preventDefault();
+        const findText = $("#search-box").val();
+        const select = $("#select").find(":selected").val();
+        if (findText.length === 0) {
+          alert("Vui lòng nhập tên món ăn");
+        }
+        $.get({
+          url: listApi[select](findText),
+          headers: { Authorization: `Bearer ${mockToken.get()}` },
+          success: (data) => {
+            let text_render = "";
+            for (const item of data) {
+              text_render += `<li class="flex flex-col items-center justify-around space-x-2 shadow-md hover:shadow-xl p-4 rounded-lg">
+          <div class="font-bold text-lg">
+            <h1>Tên quán: <span class="font-normal italic"> ${item.name_restaurant} </span></h1>
+            <h1>Tên món: <span class="font-normal italic"> ${item.name_food}</span></h1>
+            <h1>Địa chỉ: <span class="font-normal italic"> ${item.address}</span></h1>
+            <h1>
+              Mô tả món ăn:
+              <p class="text-ellipsis line-clamp-4 font-normal italic"> ${item.description_food}</p>
+            </h1>
+          </div>
+          <div>
+            <img
+              src="${item.image}"
+              alt="ảnh minh họa"
+              class="w-[250px] rounded-lg"
+            />
+          </div>
+        </li>`;
+            }
+            $("#list-result").html(text_render);
+          },
+          error: (error) => {
+            alert(`${error.message}`);
+          },
+        });
+      });
+    });
+  </script>
+</html>

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp"></script>
+    <script
+      src="https://code.jquery.com/jquery-3.7.1.js"
+      integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+      crossorigin="anonymous"
+    ></script>
+    <!-- <link rel="stylesheet" href="style.css"> -->
+    <style>
+      .main {
+        background: url("https://zda.vn/wp-content/uploads/2023/02/55-hinh-nen-mau-tim-cute-ngau-mong-mo-cho-iphone-pc_23.jpg");
+        background-repeat: no-repeat;
+        background-size: cover;
+      }
+    </style>
+    <title>Đăng nhập</title>
+  </head>
+  <body>
+    <main
+      class="min-w-screen min-h-screen md:flex justify-center items-center main"
+    >
+      <div class="flex justify-center items-center">
+        <img
+          src="https://cdni.iconscout.com/illustration/premium/thumb/couple-eating-healthy-food-5100774-4258933.png"
+          alt="img"
+          class="w-[65%] md:w-[80%]"
+        />
+      </div>
+      <div
+        class="wrap-form md:shadow-xl p-8 rounded-md md:hover:shadow-2xl space-y-3 z-30"
+      >
+        <h1 class="font-bold text-3xl text-center text-white">Welcome Go Neatly</h1>
+        <form class="space-y-3 text-white">
+          <div class="gr-input">
+            <label>Tên đăng nhập</label>
+            <input
+              type="text"
+              placeholder="ngoctram05"
+              class="w-full rounded-md h-12"
+              required
+              id="username"
+            />
+          </div>
+          <div class="gr-input">
+            <label>Mật khẩu</label>
+            <input
+              type="password"
+              placeholder="********"
+              class="w-full rounded-md h-12"
+              required
+              id="password"
+            />
+          </div>
+          <div class="gr-btn flex justify-center items-center">
+            <button
+              id="btn-submit"
+              class="bg-blue-400 hover:bg-blue-600 text-white rounded-md py-3 px-5"
+            >
+              Đăng nhập
+            </button>
+          </div>
+        </form>
+      </div>
+    </main>
+  </body>
+  <script>
+    const mockToken = {
+      get: () => {
+        const token = "4omf9lx08a4a63cpfdx6z8habb7ip65cmhry9851";
+        return token;
+      },
+    };
+    $(() => {
+      $("#btn-submit").click((e) => {
+        e.preventDefault();
+        const username = $("#username").val();
+        const password = $("#password").val();
+        if (username.length === 0 || password.length === 0) {
+          alert("Vui lòng nhập đầy đủ tên tài khoản và mật khẩu");
+          return;
+        }
+        $.get({
+          url: `https://sheetdb.io/api/v1/9l4kht3ktqj3y/search?sheet=account&username=${username}`,
+          headers: { Authorization: `Bearer ${mockToken.get()}` },
+          success: (data) => {
+            const account = data[0];
+            if (password === account.password) {
+              window.location.href = "./src/home.html";
+            } else {
+              alert("Mật khẩu không chính xác");
+            }
+          },
+          error: (error) => {
+            alert(`${error.message}`);
+          },
+        });
+      });
+    });
+  </script>
+</html>
