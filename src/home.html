@@ -74,9 +74,15 @@
           .split(" ")
           .join("_")}`,
       name_res: (name_res) =>
-        `https://sheetdb.io/api/v1/9l4kht3ktqj3y/search?sheet=food&name_res_slug=${name_res.toLowerCase()}`,
+        `https://sheetdb.io/api/v1/9l4kht3ktqj3y/search?sheet=food&name_res_slug=${name_res
+          .toLowerCase()
+          .split(" ")
+          .join("_")}`,
       address_slug: (address_slug) =>
-        `https://sheetdb.io/api/v1/9l4kht3ktqj3y/search?sheet=food&address_slug=${address_slug.toLowerCase()}`,
+        `https://sheetdb.io/api/v1/9l4kht3ktqj3y/search?sheet=food&address_slug=${address_slug
+          .toLowerCase()
+          .split(" ")
+          .join("_")}`,
     };
     const mockToken = {
       get: () => {
